@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.enxcl.cataloguemanagement.server.ui.model.BannerConfig;
 import com.enxcl.cataloguemanagement.server.ui.model.BannerConfigPK;
 import com.enxcl.cataloguemanagement.server.ui.repository.BannerConfigRepository;
-import com.enxcl.cataloguemanagement.server.ui.util.FileBasedBanner;
+import com.enxcl.cataloguemanagement.server.ui.util.S3BasedBanner;
 
 @Service
 public class UIService {
@@ -24,7 +24,8 @@ public class UIService {
     public BannerConfig saveBannerConfig(BannerConfig bannerConfig) {
         if (bannerConfig.imageData != null && bannerConfig.imageData.length > 0) {
             bannerConfig.companyCode = "EN";
-            String relativePath = FileBasedBanner.saveBannerImage(bannerConfig);
+            //String relativePath = FileBasedBanner.saveBannerImage(bannerConfig);
+            String relativePath = S3BasedBanner.saveBannerImage(bannerConfig);
             bannerConfig.imageURL = relativePath;
             bannerConfig.imageData = null; // Clear transient data
         }

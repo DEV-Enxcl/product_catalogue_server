@@ -10,7 +10,7 @@ import com.enxcl.cataloguemanagement.server.inventory.model.CategoryMasterPK;
 import com.enxcl.cataloguemanagement.server.inventory.model.InventoryMaster;
 import com.enxcl.cataloguemanagement.server.inventory.repository.CategoryRepository;
 import com.enxcl.cataloguemanagement.server.inventory.repository.InventoryRepository;
-import com.enxcl.cataloguemanagement.server.inventory.util.FileCreationUtil;
+import com.enxcl.cataloguemanagement.server.inventory.util.S3CreationUtil;
 
 @Service
 public class InventoryService {
@@ -35,7 +35,7 @@ public class InventoryService {
     public InventoryMaster saveInventoryItem(InventoryMaster inventoryMaster) {
         if (inventoryMaster.imageData != null && inventoryMaster.imageData.length > 0)
         {
-            inventoryMaster = FileCreationUtil.saveInventoryImage(inventoryMaster.imageData,inventoryMaster.additionalImageData, inventoryMaster);
+            inventoryMaster = S3CreationUtil.saveInventoryImage(inventoryMaster.imageData,inventoryMaster.additionalImageData, inventoryMaster);
             inventoryMaster.imageData = null; // Clear transient data
             inventoryMaster.additionalImageData = null; // Clear transient data
         }
@@ -48,7 +48,7 @@ public class InventoryService {
 
     public CategoryMaster savecategory(CategoryMaster categoryMaster) {
         if (categoryMaster.imageData != null && categoryMaster.imageData.length > 0) {
-            String filename = FileCreationUtil.saveCategoryImage(categoryMaster.imageData, categoryMaster.categoryID);
+            String filename = S3CreationUtil.saveCategoryImage(categoryMaster.imageData, categoryMaster.categoryID);
             categoryMaster.image = filename;
             categoryMaster.imageData = null; // Clear transient data
         }
